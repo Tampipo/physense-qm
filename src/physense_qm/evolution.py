@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Tanguy Marsault - PhySense
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """
 Time evolution of quantum states using the split-step Fourier method.
 Atomic units: hbar = m = 1.

@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Tanguy Marsault - PhySense
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """
 Quantum observables computed from a wavefunction.
 Atomic units: hbar = 1.
