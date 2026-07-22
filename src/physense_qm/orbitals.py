@@ -114,5 +114,27 @@ class SingleAtomState:
             Values of the atomic orbital at the given coordinates.
         """
         return self._orbital(r, theta, phi)
+
+    def density(self, r: np.ndarray, theta: np.ndarray, phi: np.ndarray) -> np.ndarray:
+        """
+        Compute the probability density of the atomic orbital on a grid of spherical coordinates.
+
+        Parameters
+        ----------
+        r : np.ndarray
+            Radial distances from the nucleus.
+        theta : np.ndarray
+            Polar angles in radians.
+        phi : np.ndarray
+            Azimuthal angles in radians.
+
+        Returns
+        -------
+        np.ndarray
+            Probability density of the atomic orbital at the given coordinates.
+        """
+        orbital_values = self._orbital(r, theta, phi)
+        return np.abs(orbital_values)**2
+    
     
 __all__ = ["SingleAtomState"]

@@ -41,3 +41,12 @@ class TestSingleAtomState:
         r2 = 2.0
         value4 = state._orbital(r2, theta, phi)
         assert value/value4  == pytest.approx(np.exp(state.Z * (r2 - r) / state.n))  # For l=0, m=0, the ratio of orbitals at different r should follow the exponential decay of the radial part.
+
+    def test_density(self):
+        state = SingleAtomState(Z=1, n=1, l=0, m=0)
+        r = 1.0
+        theta = np.pi / 2
+        phi = 0.0
+        density = state.density(r, theta, phi)
+        assert isinstance(density, float)
+        assert density >= 0.0
