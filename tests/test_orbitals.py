@@ -50,3 +50,10 @@ class TestSingleAtomState:
         density = state.density(r, theta, phi)
         assert isinstance(density, float)
         assert density >= 0.0
+
+    def test_density_to_grid(self):
+        state = SingleAtomState(Z=1, n=1, l=0, m=0)
+        grid = Grid3D(x_min=-5.0, x_max=5.0, y_min=-5.0, y_max=5.0, z_min=-5.0, z_max=5.0, nx=11, ny=11, nz=11)
+        density_grid = state.density_on_grid(grid)
+        assert density_grid.shape == (grid.nx, grid.ny, grid.nz)
+        assert np.all(density_grid >= 0.0)

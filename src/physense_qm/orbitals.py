@@ -10,6 +10,8 @@ from physense_utils.grids import Grid3D
 Atomic orbitals for hydrogen-like atoms, expressed in spherical coordinates (r, theta, phi).
 """
 
+
+
 class SingleAtomState:
     """
     A single atom system defined by its atomic number Z.
@@ -135,6 +137,23 @@ class SingleAtomState:
         """
         orbital_values = self._orbital(r, theta, phi)
         return np.abs(orbital_values)**2
-    
+
+    def density_on_grid(self, grid: Grid3D) -> np.ndarray:
+        """
+        Compute the probability density of the atomic orbital on a 3D grid.
+
+        Parameters
+        ----------
+        grid : Grid3D
+            A 3D grid object containing meshgrid arrays for x, y, z coordinates.
+
+        Returns
+        -------
+        np.ndarray
+            Probability density of the atomic orbital on the 3D grid.
+        """
+        r, theta, phi = grid.to_spherical()
+        return grid.to_grid(r.flatten(), theta.flatten(), phi.flatten(), self.density)
+
     
 __all__ = ["SingleAtomState"]
