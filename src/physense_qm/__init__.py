@@ -30,6 +30,7 @@ __all__ = [
     "EigenSolution",
     "solve_eigenstates",
     "GaussianWavepacket",
+    "SingleAtomState",
     "Evolution",
     "evolve",
     "observables",
