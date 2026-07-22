@@ -155,5 +155,45 @@ class SingleAtomState:
         r, theta, phi = grid.to_spherical()
         return grid.to_grid(r.flatten(), theta.flatten(), phi.flatten(), self.density)
 
-    
+    def wavefunction(self, r: np.ndarray, theta: np.ndarray, phi: np.ndarray) -> np.ndarray:
+        """
+        Compute the real part of the atomic orbital wavefunction on a grid of
+        spherical coordinates — unlike `density`, this keeps the sign/phase,
+        which is what gives each lobe of a p/d/f orbital its alternating
+        color in a standard orbital diagram.
+
+        Parameters
+        ----------
+        r : np.ndarray
+            Radial distances from the nucleus.
+        theta : np.ndarray
+            Polar angles in radians.
+        phi : np.ndarray
+            Azimuthal angles in radians.
+
+        Returns
+        -------
+        np.ndarray
+            Real part of the atomic orbital wavefunction at the given coordinates.
+        """
+        return self._orbital(r, theta, phi).real
+
+    def wavefunction_on_grid(self, grid: Grid3D) -> np.ndarray:
+        """
+        Compute the real part of the atomic orbital wavefunction on a 3D grid.
+
+        Parameters
+        ----------
+        grid : Grid3D
+            A 3D grid object containing meshgrid arrays for x, y, z coordinates.
+
+        Returns
+        -------
+        np.ndarray
+            Real part of the atomic orbital wavefunction on the 3D grid.
+        """
+        r, theta, phi = grid.to_spherical()
+        return grid.to_grid(r.flatten(), theta.flatten(), phi.flatten(), self.wavefunction)
+
+
 __all__ = ["SingleAtomState"]

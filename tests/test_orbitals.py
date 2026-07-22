@@ -57,3 +57,27 @@ class TestSingleAtomState:
         density_grid = state.density_on_grid(grid)
         assert density_grid.shape == (grid.nx, grid.ny, grid.nz)
         assert np.all(density_grid >= 0.0)
+
+    def test_wavefunction(self):
+        state = SingleAtomState(Z=1, n=1, l=0, m=0)
+        r = 1.0
+        theta = np.pi / 2
+        phi = 0.0
+        psi = state.wavefunction(r, theta, phi)
+        assert isinstance(psi, float)
+        # 1s has no nodes and Y_0^0 is a positive real constant, so psi > 0 everywhere.
+        assert psi > 0.0
+        assert psi**2 == pytest.approx(state.density(r, theta, phi))
+
+    def test_wavefunction_to_grid(self):
+        # 2p_z (l=1, m=0) has an angular node at theta=pi/2: psi should be
+        # positive on one side of the xy-plane and negative on the other —
+        # this sign is exactly what the orbital-viewer isosurface colors by.
+        state = SingleAtomState(Z=1, n=2, l=1, m=0)
+        grid = Grid3D(x_min=-10.0, x_max=10.0, y_min=-10.0, y_max=10.0, z_min=-10.0, z_max=10.0, nx=11, ny=11, nz=11)
+        psi_grid = state.wavefunction_on_grid(grid)
+        assert psi_grid.shape == (grid.nx, grid.ny, grid.nz)
+        assert psi_grid.dtype == np.float64
+        assert np.any(psi_grid > 0.0)
+        assert np.any(psi_grid < 0.0)
+        assert psi_grid**2 == pytest.approx(state.density_on_grid(grid))
